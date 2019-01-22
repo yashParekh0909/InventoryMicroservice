@@ -1,6 +1,7 @@
 package com.example.Inventory.Controller;
 
 import com.example.Inventory.Dto.CartCheckQuantityDto;
+import com.example.Inventory.Dto.CartQuantityWrapperDto;
 import com.example.Inventory.Dto.InventoryDto;
 import com.example.Inventory.Entity.CartCheckQuantity;
 import com.example.Inventory.Entity.Inventory;
@@ -75,10 +76,11 @@ public class InventoryController {
     }
 
     @RequestMapping(value = "/checkStock", method = RequestMethod.POST)
-    public List<CartCheckQuantityDto> checkStock(@RequestBody List<CartCheckQuantityDto> checkItems){
-
+    public CartQuantityWrapperDto checkStock(@RequestBody List<CartCheckQuantityDto> checkItems){
+        CartQuantityWrapperDto cartQuantityWrapperDto=new CartQuantityWrapperDto();
+        System.out.println(checkItems.toString());
         List<CartCheckQuantity> cartCheckQuantities = new ArrayList<>();
-        List<CartCheckQuantityDto> returnCart = new ArrayList<>();
+        List<CartCheckQuantityDto> checkQuantityDtoList = new ArrayList<>();
 
         for (CartCheckQuantityDto cartCheckQuantityDto: checkItems){
             CartCheckQuantity cartCheckQuantity = new CartCheckQuantity();
@@ -88,14 +90,14 @@ public class InventoryController {
 
         List<CartCheckQuantity> obj = inventoryService.checkItems(cartCheckQuantities);
         for (CartCheckQuantity obj1: obj){
-            System.out.println(obj1.getStatus());
-//            CartCheckQuantityDto cartCheckQuantityDto = new CartCheckQuantityDto();
-//            BeanUtils.copyProperties(obj1, cartCheckQuantityDto);
-//            returnCart.add(cartCheckQuantityDto);
+            CartCheckQuantityDto cartCheckQuantityDto = new CartCheckQuantityDto();
+            BeanUtils.copyProperties(obj1, cartCheckQuantityDto);
+            checkQuantityDtoList.add(cartCheckQuantityDto);
 
         }
-
-        return returnCart;
+        cartQuantityWrapperDto.setCartCheckQuantityDtoList(checkQuantityDtoList);
+        System.out.println(cartQuantityWrapperDto.toString());
+        return cartQuantityWrapperDto;
     }
 
 }

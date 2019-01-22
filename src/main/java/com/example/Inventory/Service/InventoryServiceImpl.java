@@ -54,16 +54,20 @@ public class InventoryServiceImpl implements InventoryService{
             String productId = checkQuantity.getProductId();
             Integer quantity = checkQuantity.getQuantity();
 
-            Integer stock = inventoryRepository.checkStock(merchantId, productId);
+            try {
+                Integer stock = inventoryRepository.checkStock(merchantId, productId);
 
-            if(stock == null){
-                checkQuantity.setStatus(false);
 
-            }
-            if(quantity <= stock){
-                checkQuantity.setStatus(true);
-            } else {
+                if(quantity <= stock){
+                    checkQuantity.setStatus(true);
+                } else {
+                    checkQuantity.setStatus(false);
+                    checkQuantity.setMsg("Product out of stock.");
+                }
+
+            } catch (NullPointerException ex){
                 checkQuantity.setStatus(false);
+                checkQuantity.setMsg("No product exist.");
             }
             list.add(checkQuantity);
         }

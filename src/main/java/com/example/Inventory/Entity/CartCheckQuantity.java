@@ -21,6 +21,11 @@ public class CartCheckQuantity {
 
     private String merchantId;
     private String productId;
+
+    public Integer getQuantity() {
+        return quantity;
+    }
+
     private Integer quantity;
     private Boolean status;
     private String msg;
@@ -53,9 +58,6 @@ public class CartCheckQuantity {
         this.productId = productId;
     }
 
-    public int getQuantity() {
-        return quantity;
-    }
 
     public Boolean getStatus() {
         return status;

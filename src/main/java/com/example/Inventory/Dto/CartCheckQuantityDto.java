@@ -44,6 +44,17 @@ public class CartCheckQuantityDto {
         return msg;
     }
 
+    @Override
+    public String toString() {
+        return "CartCheckQuantityDto{" +
+                "merchantId='" + merchantId + '\'' +
+                ", productId='" + productId + '\'' +
+                ", quantity=" + quantity +
+                ", status=" + status +
+                ", msg='" + msg + '\'' +
+                '}';
+    }
+
     public void setMsg(String msg) {
         this.msg = msg;
     }
